@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import City, ProgramDetail, Photo, Video, ExhibitorRegistration, ParticipantRegistration, Inquiry, Stall
+from .models import City, ProgramDetail, Photo, Video, ExhibitorRegistration, ParticipantRegistration, Inquiry, Stall, StallBooking
 
 class ProgramDetailSerializer(serializers.ModelSerializer):
     class Meta:
@@ -8,6 +8,7 @@ class ProgramDetailSerializer(serializers.ModelSerializer):
 
 class CitySerializer(serializers.ModelSerializer):
     program_details = ProgramDetailSerializer(many=True, read_only=True)
+    image = serializers.ImageField(required=False)
     
     class Meta:
         model = City
@@ -39,8 +40,17 @@ class InquirySerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class StallSerializer(serializers.ModelSerializer):
+    image = serializers.ImageField(required=False)
     class Meta:
         model = Stall
+        fields = '__all__'
+
+class StallBookingSerializer(serializers.ModelSerializer):
+    stall_details = StallSerializer(source='stall', read_only=True)
+    city_details = CitySerializer(source='city', read_only=True)
+    
+    class Meta:
+        model = StallBooking
         fields = '__all__'
 
 from django.contrib.auth.models import User

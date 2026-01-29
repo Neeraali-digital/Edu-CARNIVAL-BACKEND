@@ -5,14 +5,24 @@ class City(models.Model):
     slug = models.SlugField(unique=True)
     image = models.ImageField(upload_to='cities/')
     date = models.CharField(max_length=100)
+    start_date = models.DateField(null=True, blank=True)
+    end_date = models.DateField(null=True, blank=True)
+    is_current_expo = models.BooleanField(default=False)
     location = models.CharField(max_length=255)
     description = models.TextField()
     
     def __str__(self):
         return self.name
+    
+    def save(self, *args, **kwargs):
+        if self.is_current_expo:
+            # Set all other cities' is_current_expo to False
+            City.objects.filter(is_current_expo=True).exclude(pk=self.pk).update(is_current_expo=False)
+        super(City, self).save(*args, **kwargs)
 
     class Meta:
         verbose_name_plural = "Cities"
+        ordering = ['start_date']
 
 class ProgramDetail(models.Model):
     city = models.ForeignKey(City, related_name='program_details', on_delete=models.CASCADE)
@@ -81,3 +91,14 @@ class Stall(models.Model):
 
     def __str__(self):
         return self.title
+
+class StallBooking(models.Model):
+    stall = models.ForeignKey(Stall, on_delete=models.CASCADE)
+    city = models.ForeignKey(City, on_delete=models.SET_NULL, null=True)
+    name = models.CharField(max_length=200)
+    email = models.EmailField()
+    phone = models.CharField(max_length=20)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Booking: {self.name} - {self.stall.title}"

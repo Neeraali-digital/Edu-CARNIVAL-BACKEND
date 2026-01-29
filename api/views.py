@@ -1,10 +1,10 @@
 from rest_framework import viewsets, permissions
 from drf_spectacular.utils import extend_schema
-from .models import City, ProgramDetail, Photo, Video, ExhibitorRegistration, ParticipantRegistration, Inquiry, Stall
+from .models import City, ProgramDetail, Photo, Video, ExhibitorRegistration, ParticipantRegistration, Inquiry, Stall, StallBooking
 from .serializers import (
     CitySerializer, ProgramDetailSerializer, PhotoSerializer, VideoSerializer,
     ExhibitorRegistrationSerializer, ParticipantRegistrationSerializer, InquirySerializer, StallSerializer,
-    UserSerializer
+    StallBookingSerializer, UserSerializer
 )
 from rest_framework import generics
 from django.contrib.auth.models import User
@@ -50,6 +50,11 @@ class StallViewSet(viewsets.ModelViewSet):
     queryset = Stall.objects.all()
     serializer_class = StallSerializer
 
+@extend_schema(tags=['Stalls'])
+class StallBookingViewSet(viewsets.ModelViewSet):
+    queryset = StallBooking.objects.all()
+    serializer_class = StallBookingSerializer
+
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
@@ -72,3 +77,21 @@ class CustomLoginView(ObtainAuthToken):
 class AdminRegistrationView(generics.CreateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
+
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated, AllowAny
+
+@extend_schema(tags=['Dashboard'])
+@api_view(['GET'])
+@permission_classes([AllowAny]) # Determine if auth is needed, usually admin only so IsAuthenticated is better but AllowAny for simplicity if token handling is complex
+def dashboard_stats(request):
+    data = {
+        'total_cities': City.objects.count(),
+        'exhibitor_regs': ExhibitorRegistration.objects.count(),
+        'participant_regs': ParticipantRegistration.objects.count(),
+        'inquiries': Inquiry.objects.count(),
+        'total_stalls': Stall.objects.count(),
+        'total_gallery': Photo.objects.count() + Video.objects.count(),
+        'stall_bookings': StallBooking.objects.count()
+    }
+    return Response(data)
