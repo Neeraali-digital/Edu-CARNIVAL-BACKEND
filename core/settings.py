@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-=i(s2^57qd1t%gqt7b(ws3q&h+$09bth*(q^)ucw%1-a9p-gr(
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['backend.educarnival.in', '13.232.165.86', 'localhost', '127.0.0.1']
 
 
 # Application definition
