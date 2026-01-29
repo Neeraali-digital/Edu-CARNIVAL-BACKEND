@@ -23,7 +23,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-=i(s2^57qd1t%gqt7b(ws3q&h+$09bth*(q^)ucw%1-a9p-gr('
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# SECURITY WARNING: don't run with debug turned on in production!
+DEBUG = False
 
 ALLOWED_HOSTS = ['backend.educarnival.in', '13.232.165.86', 'localhost', '127.0.0.1']
 
@@ -139,7 +140,10 @@ USE_TZ = True
 STATIC_URL = 'static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
-MEDIA_URL = '/media/'
+if DEBUG:
+    MEDIA_URL = '/media/'
+else:
+    MEDIA_URL = 'https://backend.educarnival.in/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
 # CORS Settings
