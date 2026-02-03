@@ -36,6 +36,7 @@ class ProgramDetail(models.Model):
 class Photo(models.Model):
     title = models.CharField(max_length=200, blank=True)
     image = models.ImageField(upload_to='gallery/photos/')
+    year = models.IntegerField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
