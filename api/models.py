@@ -86,8 +86,9 @@ class Inquiry(models.Model):
 
 class Stall(models.Model):
     title = models.CharField(max_length=200)
-    description = models.TextField()
+    description = models.TextField(blank=True, null=True)
     price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    city = models.ForeignKey(City, on_delete=models.CASCADE, related_name='stalls', null=True, blank=True)
     image = models.ImageField(upload_to='stalls/', blank=True, null=True)
 
     def __str__(self):
@@ -99,6 +100,7 @@ class StallBooking(models.Model):
     name = models.CharField(max_length=200)
     email = models.EmailField()
     phone = models.CharField(max_length=20)
+    slot_id = models.CharField(max_length=50, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
