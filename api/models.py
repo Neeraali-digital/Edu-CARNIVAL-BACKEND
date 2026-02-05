@@ -9,6 +9,7 @@ class City(models.Model):
     end_date = models.DateField(null=True, blank=True)
     is_current_expo = models.BooleanField(default=False)
     location = models.CharField(max_length=255)
+    place = models.CharField(max_length=255, blank=True, null=True)
     description = models.TextField()
     
     def __str__(self):
