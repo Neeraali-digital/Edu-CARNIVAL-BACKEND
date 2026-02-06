@@ -57,7 +57,7 @@ class ExhibitorRegistration(models.Model):
     company_name = models.CharField(max_length=200)
     email = models.EmailField()
     phone_number = models.CharField(max_length=20)
-    category = models.CharField(max_length=100)
+    location = models.CharField(max_length=100)
     message = models.TextField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
@@ -101,7 +101,6 @@ class StallBooking(models.Model):
     name = models.CharField(max_length=200)
     email = models.EmailField()
     phone = models.CharField(max_length=20)
-    slot_id = models.CharField(max_length=50, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
