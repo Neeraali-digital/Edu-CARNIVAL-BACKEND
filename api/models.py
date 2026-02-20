@@ -11,6 +11,7 @@ class City(models.Model):
     location = models.CharField(max_length=255)
     place = models.CharField(max_length=255, blank=True, null=True)
     description = models.TextField()
+    regional_representative = models.TextField(blank=True, null=True)
     
     def __str__(self):
         return self.name
@@ -70,6 +71,7 @@ class ParticipantRegistration(models.Model):
     email = models.EmailField()
     phone_number = models.CharField(max_length=20)
     interests = models.TextField()
+    prize_code = models.CharField(max_length=50, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -105,3 +107,25 @@ class StallBooking(models.Model):
 
     def __str__(self):
         return f"Booking: {self.name} - {self.stall.title}"
+
+class WheelPrize(models.Model):
+    name = models.CharField(max_length=100)
+    label = models.CharField(max_length=50) 
+    total_quantity = models.IntegerField(default=0)
+    remaining_quantity = models.IntegerField(default=0)
+    weight = models.IntegerField(default=10, help_text="Higher weight = higher chance")
+    color = models.CharField(max_length=20, default="#ec4899")
+    is_active = models.BooleanField(default=True)
+
+    def __str__(self):
+        return f"{self.name} ({self.remaining_quantity}/{self.total_quantity})"
+
+class SpinWinner(models.Model):
+    prize = models.ForeignKey(WheelPrize, on_delete=models.CASCADE)
+    unique_code = models.CharField(max_length=50, unique=True)
+    ip_address = models.GenericIPAddressField(null=True, blank=True)
+    is_claimed = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.unique_code} - {self.prize.name}"

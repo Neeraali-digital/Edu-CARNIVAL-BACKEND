@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import City, ProgramDetail, Photo, Video, ExhibitorRegistration, ParticipantRegistration, Inquiry, Stall
+from .models import City, ProgramDetail, Photo, Video, ExhibitorRegistration, ParticipantRegistration, Inquiry, Stall, StallBooking, WheelPrize, SpinWinner
 
 @admin.register(City)
 class CityAdmin(admin.ModelAdmin):
@@ -26,8 +26,8 @@ class ExhibitorRegistrationAdmin(admin.ModelAdmin):
 
 @admin.register(ParticipantRegistration)
 class ParticipantRegistrationAdmin(admin.ModelAdmin):
-    list_display = ('full_name', 'school_college', 'email', 'phone_number', 'created_at')
-    search_fields = ('full_name', 'school_college', 'email')
+    list_display = ('full_name', 'school_college', 'email', 'phone_number', 'prize_code', 'created_at')
+    search_fields = ('full_name', 'school_college', 'email', 'prize_code')
 
 @admin.register(Inquiry)
 class InquiryAdmin(admin.ModelAdmin):
@@ -37,3 +37,18 @@ class InquiryAdmin(admin.ModelAdmin):
 @admin.register(Stall)
 class StallAdmin(admin.ModelAdmin):
     list_display = ('title', 'price')
+
+@admin.register(StallBooking)
+class StallBookingAdmin(admin.ModelAdmin):
+    list_display = ('name', 'stall', 'city', 'created_at')
+
+@admin.register(WheelPrize)
+class WheelPrizeAdmin(admin.ModelAdmin):
+    list_display = ('name', 'label', 'remaining_quantity', 'total_quantity', 'weight', 'is_active')
+    list_editable = ('remaining_quantity', 'weight', 'is_active')
+
+@admin.register(SpinWinner)
+class SpinWinnerAdmin(admin.ModelAdmin):
+    list_display = ('unique_code', 'prize', 'is_claimed', 'created_at')
+    list_filter = ('is_claimed', 'prize')
+    search_fields = ('unique_code', 'ip_address')

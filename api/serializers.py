@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import City, ProgramDetail, Photo, Video, ExhibitorRegistration, ParticipantRegistration, Inquiry, Stall, StallBooking
+from .models import City, ProgramDetail, Photo, Video, ExhibitorRegistration, ParticipantRegistration, Inquiry, Stall, StallBooking, WheelPrize, SpinWinner
 
 class ProgramDetailSerializer(serializers.ModelSerializer):
     class Meta:
@@ -32,6 +32,17 @@ class ExhibitorRegistrationSerializer(serializers.ModelSerializer):
 class ParticipantRegistrationSerializer(serializers.ModelSerializer):
     class Meta:
         model = ParticipantRegistration
+        fields = '__all__'
+
+class WheelPrizeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = WheelPrize
+        fields = '__all__'
+
+class SpinWinnerSerializer(serializers.ModelSerializer):
+    prize_details = WheelPrizeSerializer(source='prize', read_only=True)
+    class Meta:
+        model = SpinWinner
         fields = '__all__'
 
 class InquirySerializer(serializers.ModelSerializer):
