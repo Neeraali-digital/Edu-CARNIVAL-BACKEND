@@ -16,7 +16,7 @@ prizes = [
     {'name': 'Smart Watch', 'label': 'Smart Watch', 'total_quantity': 20, 'remaining_quantity': 20, 'weight': 5, 'color': '#fbbf24'},
     {'name': '₹25,000 Scholarship', 'label': '₹25k | Scholar', 'total_quantity': 100, 'remaining_quantity': 100, 'weight': 15, 'color': '#9333ea'},
     {'name': 'Career Mapping', 'label': 'Career | Map', 'total_quantity': 200, 'remaining_quantity': 200, 'weight': 25, 'color': '#be185d'},
-    {'name': 'Better Luck Next Time', 'label': 'Better Luck | Next Time', 'total_quantity': 9999, 'remaining_quantity': 9999, 'weight': 40, 'color': '#4b5563'},
+    {'name': 'Amazon Gift Cards', 'label': 'Amazon | Gift Cards', 'total_quantity': 200, 'remaining_quantity': 200, 'total_quantity': 9999, 'remaining_quantity': 9999, 'weight': 40, 'color': '#4b5563'},
 ]
 
 for p in prizes:
